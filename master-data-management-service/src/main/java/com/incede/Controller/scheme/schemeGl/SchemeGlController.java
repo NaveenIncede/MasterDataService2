@@ -11,6 +11,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import com.incede.Dto.scheme.schemGl.SchemeGlDTO;
+import com.incede.Exception.ApiResponse;
 import com.incede.Exception.BusinessException;
 import com.incede.Response.response.responseBody.ResponseWrapper;
 import com.incede.Service.scheme.schemeGl.SchemeGlService;
@@ -26,7 +27,7 @@ public class SchemeGlController {
 
     // Create or update
     @PostMapping("/")
-    public ResponseEntity<ResponseWrapper<SchemeGlDTO>> saveOrUpdate(
+    public ResponseEntity<ApiResponse<SchemeGlDTO>> saveOrUpdate(
             @Valid @RequestBody SchemeGlDTO dto,
             BindingResult bindingResult) {
 
@@ -37,25 +38,25 @@ public class SchemeGlController {
             throw new BusinessException("Validation failed: " + errorMsg);
         }
 
-        ResponseWrapper<SchemeGlDTO> response = schemeGlService.saveOrUpdate(dto);
+        ApiResponse<SchemeGlDTO> response = schemeGlService.saveOrUpdate(dto);
         return ResponseEntity.status(201).body(response);
     }
 
     // Soft delete by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<Boolean>> softDelete(@PathVariable Integer id) {
+    public ResponseEntity<ApiResponse<Boolean>> softDelete(@PathVariable Integer id) {
         return ResponseEntity.ok(schemeGlService.softDelete(id));
     }
 
     // Get all active scheme GLs
     @GetMapping
-    public ResponseEntity<ResponseWrapper<?>> getAllActive() {
+    public ResponseEntity<ApiResponse<?>> getAllActive() {
         return ResponseEntity.ok(schemeGlService.getAllActive());
     }
 
     // Get by ID
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<SchemeGlDTO>> getById(@PathVariable Integer id) {
+    public ResponseEntity<ApiResponse<SchemeGlDTO>> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(schemeGlService.getById(id));
     }
     
@@ -66,13 +67,13 @@ public class SchemeGlController {
     }
     
     @GetMapping("/{schemeId}/{glAccountType}")
-    public ResponseEntity<ResponseWrapper<Integer>> getGlAccountId(@PathVariable Integer schemeId, @PathVariable String glAccountType) {
+    public ResponseEntity<ApiResponse<Integer>> getGlAccountId(@PathVariable Integer schemeId, @PathVariable String glAccountType) {
         return ResponseEntity.ok(schemeGlService.getGlAccountId(schemeId, glAccountType));
     }
     
     @GetMapping("/gl-account/{glAccountId}")
-    public ResponseEntity<ResponseWrapper<List<SchemeGlDTO>>> getByGlAccountId(@PathVariable Integer glAccountId) {
-        ResponseWrapper<List<SchemeGlDTO>> list = schemeGlService.getByGlAccountId(glAccountId);
+    public ResponseEntity<ApiResponse<List<SchemeGlDTO>>> getByGlAccountId(@PathVariable Integer glAccountId) {
+    	ApiResponse<List<SchemeGlDTO>> list = schemeGlService.getByGlAccountId(glAccountId);
         return ResponseEntity.ok(list);
     }
 

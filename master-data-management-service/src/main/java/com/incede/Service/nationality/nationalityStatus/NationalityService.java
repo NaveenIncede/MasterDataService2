@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.incede.Dto.nationality.nationalitystatus.NationalityDTO;
+import com.incede.Exception.ApiResponse;
 import com.incede.Exception.BusinessException;
 import com.incede.Model.nationality.nationalityStatus.Nationality;
 import com.incede.Repository.nationality.nationalityStatus.NationalityRepository;
@@ -53,26 +54,26 @@ public class NationalityService {
     }
     
     @Transactional(readOnly = true)
-    public ResponseWrapper<List<NationalityDTO>> getAllNationalities() {
+    public ApiResponse<List<NationalityDTO>> getAllNationalities() {
         List<NationalityDTO> nationalities = nationalityRepository.findByIsActiveTrue().stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
 
-        return new ResponseWrapper<>("success", nationalities, "Nationalities fetched successfully");
+        return new ApiResponse<>("success", nationalities, "Nationalities fetched successfully");
     }
 
     @Transactional(readOnly = true)
-    public ResponseWrapper<NationalityDTO> getNationalityById(Integer id) {
+    public ApiResponse<NationalityDTO> getNationalityById(Integer id) {
         Nationality nationality = nationalityRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Nationality not found with ID: " + id));
 
         NationalityDTO nationalityDTO = toDto(nationality);
 
-        return new ResponseWrapper<>("success", nationalityDTO, "Nationality fetched successfully");
+        return new ApiResponse<>("success", nationalityDTO, "Nationality fetched successfully");
     }
 
     @Transactional
-    public ResponseWrapper<Nationality> createOrUpdateNationality(NationalityDTO dto) {
+    public ApiResponse<Nationality> createOrUpdateNationality(NationalityDTO dto) {
         if (dto.getNationalityId() != null) {
             Nationality existingNationality = nationalityRepository.findById(dto.getNationalityId())
                     .orElseThrow(() -> new BusinessException("Nationality not found with ID: " + dto.getNationalityId()));
@@ -83,7 +84,7 @@ public class NationalityService {
                 }
             }
             existingNationality = toEntity(dto);
-            return new ResponseWrapper<>("success", nationalityRepository.save(existingNationality), "Nationality updated successfully");
+            return new ApiResponse<>("success", nationalityRepository.save(existingNationality), "Nationality updated successfully");
         }
         boolean exists = nationalityRepository.existsByTenantIdAndNationality(dto.getTenantId(), dto.getNationality());
         if (exists) {
@@ -91,16 +92,16 @@ public class NationalityService {
         }
 
         Nationality nationality = toEntity(dto);
-        return new ResponseWrapper<>("success", nationalityRepository.save(nationality), "Nationality created successfully");
+        return new ApiResponse<>("success", nationalityRepository.save(nationality), "Nationality created successfully");
     }
 
     @Transactional
-    public ResponseWrapper<String> deleteNationality(Integer id) {
+    public ApiResponse<String> deleteNationality(Integer id) {
         Nationality nationality = nationalityRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Cannot delete. Nationality not found with ID: " + id));
         nationality.setIsActive(false);
         nationalityRepository.save(nationality);
-        return new ResponseWrapper<>("success", "Nationality deleted successfully", "Nationality deleted");
+        return new ApiResponse<>("success", "Nationality deleted successfully", "Nationality deleted");
     }
 
     @Transactional

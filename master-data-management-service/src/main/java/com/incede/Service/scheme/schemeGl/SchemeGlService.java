@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.incede.Dto.scheme.schemGl.SchemeGlDTO;
+import com.incede.Exception.ApiResponse;
 import com.incede.Exception.BusinessException;
 import com.incede.Model.scheme.schemeGl.SchemeGl;
 import com.incede.Repository.scheme.schemeGl.SchemeGlRepository;
@@ -22,7 +23,7 @@ public class SchemeGlService {
     }
 
     @Transactional
-    public ResponseWrapper<SchemeGlDTO> saveOrUpdate(SchemeGlDTO dto) {
+    public ApiResponse<SchemeGlDTO> saveOrUpdate(SchemeGlDTO dto) {
         try {
             // Check uniqueness: prevent duplicate gl_account_type per scheme_id
             boolean isDuplicate = schemeGlRepository.existsBySchemeIdAndGlAccountTypeAndGlConfigIdNot(
@@ -46,7 +47,7 @@ public class SchemeGlService {
                     ? "GL Config created successfully"
                     : "GL Config updated successfully";
 
-            return new ResponseWrapper<>("success", responseDto, message);
+            return new ApiResponse<>("success", responseDto, message);
 
         } catch (BusinessException e) {
             throw e;
@@ -56,18 +57,18 @@ public class SchemeGlService {
     }
 
     @Transactional
-    public ResponseWrapper<Boolean> softDelete(Integer id) {
+    public ApiResponse<Boolean> softDelete(Integer id) {
         SchemeGl schemeGl = schemeGlRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("GL Config with ID " + id + " not found"));
 
         schemeGl.setIsActive(false);
         schemeGlRepository.save(schemeGl);
 
-        return new ResponseWrapper<>("success", true, "GL Config deleted successfully");
+        return new ApiResponse<>("success", true, "GL Config deleted successfully");
     }
 
     @Transactional(readOnly = true)
-    public ResponseWrapper<List<SchemeGlDTO>> getAllActive() {
+    public ApiResponse<List<SchemeGlDTO>> getAllActive() {
         List<SchemeGl> glList = schemeGlRepository.findByIsActiveTrue();
 
         if (glList.isEmpty()) {
@@ -78,15 +79,15 @@ public class SchemeGlService {
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
 
-        return new ResponseWrapper<>("success", dtos, "Active GL Configs fetched successfully");
+        return new ApiResponse<>("success", dtos, "Active GL Configs fetched successfully");
     }
 
     @Transactional(readOnly = true)
-    public ResponseWrapper<SchemeGlDTO> getById(Integer id) {
+    public ApiResponse<SchemeGlDTO> getById(Integer id) {
         SchemeGl schemeGl = schemeGlRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("GL Config with ID " + id + " not found"));
 
-        return new ResponseWrapper<>("success", mapToDto(schemeGl), "GL Config fetched successfully");
+        return new ApiResponse<>("success", mapToDto(schemeGl), "GL Config fetched successfully");
     }
 
     public ResponseWrapper<List<SchemeGlDTO>> getByTenantId(Integer tenantId) {
@@ -109,12 +110,12 @@ public class SchemeGlService {
         }
     }
 
-    public ResponseWrapper<Integer> getGlAccountId(Integer schemeId, String glAccountType) {
+    public ApiResponse<Integer> getGlAccountId(Integer schemeId, String glAccountType) {
         Integer glAccountId = schemeGlRepository.findBySchemeIdAndGlAccountTypeAndIsActiveTrue(schemeId, glAccountType)
                 .map(SchemeGl::getGlAccountId)
                 .orElseThrow(() -> new BusinessException("No GL mapping found for " + glAccountType));
 
-        return new ResponseWrapper<>("success", glAccountId, glAccountType + " GL account ID fetched successfully");
+        return new ApiResponse<>("success", glAccountId, glAccountType + " GL account ID fetched successfully");
     }
 
     // ==========================
@@ -160,7 +161,7 @@ public class SchemeGlService {
 
 
     @Transactional(readOnly = true)
-    public ResponseWrapper<List<SchemeGlDTO>> getByGlAccountId(Integer glAccountId) {
+    public ApiResponse<List<SchemeGlDTO>> getByGlAccountId(Integer glAccountId) {
         List<SchemeGl> list = schemeGlRepository.findByGlAccountIdAndIsActiveTrue(glAccountId);
 
         if (list.isEmpty()) {
@@ -171,7 +172,7 @@ public class SchemeGlService {
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
 
-        return new ResponseWrapper<>("success", dtos, "GL Configs fetched successfully by glAccountId");
+        return new ApiResponse<>("success", dtos, "GL Configs fetched successfully by glAccountId");
     }
 
 }

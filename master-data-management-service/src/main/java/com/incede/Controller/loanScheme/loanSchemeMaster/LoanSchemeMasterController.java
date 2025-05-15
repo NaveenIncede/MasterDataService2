@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.incede.Dto.loanScheme.loanSchemeMaster.LoanSchemeMasterDto;
+import com.incede.Exception.ApiResponse;
 import com.incede.Response.response.responseBody.ResponseWrapper;
 import com.incede.Service.loanScheme.loanSchemeMaster.LoanSchemeMasterService;
 
@@ -32,31 +33,31 @@ public class LoanSchemeMasterController {
 
     // Create or Update Loan Scheme
     @PostMapping("/")
-    public ResponseEntity<ResponseWrapper<LoanSchemeMasterDto>> saveOrUpdate(
+    public ResponseEntity<ApiResponse<LoanSchemeMasterDto>> saveOrUpdate(
             @Valid @RequestBody LoanSchemeMasterDto dto) {
-        ResponseWrapper<LoanSchemeMasterDto> response = service.createOrUpdate(dto);
+    	ApiResponse<LoanSchemeMasterDto> response = service.createOrUpdate(dto);
         return ResponseEntity.status(201).body(response); // 201 Created
     }
 
 
     // Get Loan Scheme by ID
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<LoanSchemeMasterDto>> getById(@PathVariable Integer id) {
-        ResponseWrapper<LoanSchemeMasterDto> response = service.getByIdAndIsActive(id);
+    public ResponseEntity<ApiResponse<LoanSchemeMasterDto>> getById(@PathVariable Integer id) {
+    	ApiResponse<LoanSchemeMasterDto> response = service.getByIdAndIsActive(id);
         return ResponseEntity.ok(response);
     }
 
     // Get All Loan Schemes
     @GetMapping("/")
-    public ResponseEntity<ResponseWrapper<List<LoanSchemeMasterDto>>> getAll() {
-        ResponseWrapper<List<LoanSchemeMasterDto>> response = service.getAllActive();
+    public ResponseEntity<ApiResponse<List<LoanSchemeMasterDto>>> getAll() {
+    	ApiResponse<List<LoanSchemeMasterDto>> response = service.getAllActive();
         return ResponseEntity.ok(response);
     }
 
     // Soft Delete Loan Scheme
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<Boolean>> softDelete(@PathVariable Integer id) {
-        ResponseWrapper<Boolean> response = service.softDelete(id);
+    public ResponseEntity<ApiResponse<Boolean>> softDelete(@PathVariable Integer id) {
+    	ApiResponse<Boolean> response = service.softDelete(id);
         return ResponseEntity.ok(response);
     }
     

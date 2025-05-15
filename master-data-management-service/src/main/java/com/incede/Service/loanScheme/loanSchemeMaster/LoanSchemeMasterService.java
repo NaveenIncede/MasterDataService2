@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.incede.Dto.loanScheme.loanSchemeMaster.LoanSchemeMasterDto;
+import com.incede.Exception.ApiResponse;
 import com.incede.Exception.BusinessException;
 import com.incede.Model.loanScheme.loanSchemeMaster.LoanSchemeMaster;
 import com.incede.Repository.loanScheme.loanSchemeMaster.LoanSchemeMasterRepository;
@@ -24,7 +25,7 @@ public class LoanSchemeMasterService {
     }
 
     @Transactional
-    public ResponseWrapper<LoanSchemeMasterDto> createOrUpdate(LoanSchemeMasterDto dto) {
+    public ApiResponse<LoanSchemeMasterDto> createOrUpdate(LoanSchemeMasterDto dto) {
         try {
             if (dto.getSchemeId() == null && repository.existsBySchemeCode(dto.getSchemeCode())) {
                 throw new BusinessException("Duplicate scheme code: '" + dto.getSchemeCode() + "' already exists.");
@@ -44,7 +45,7 @@ public class LoanSchemeMasterService {
             LoanSchemeMasterDto responseDto = mapToDto(savedEntity);
             String message = (dto.getSchemeId() == null) ? "Loan scheme created successfully" : "Loan scheme updated successfully";
 
-            return new ResponseWrapper<>("success", responseDto, message);
+            return new ApiResponse<>("success", responseDto, message);
 
         } catch (Exception e) {
             throw new BusinessException("Failed to save or update loan scheme: " + e.getMessage());
@@ -52,7 +53,7 @@ public class LoanSchemeMasterService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseWrapper<List<LoanSchemeMasterDto>> getAllActive() {
+    public ApiResponse<List<LoanSchemeMasterDto>> getAllActive() {
         List<LoanSchemeMaster> activeSchemes = repository.findAllByIsActiveTrue();
 
         if (activeSchemes.isEmpty()) {
@@ -63,25 +64,25 @@ public class LoanSchemeMasterService {
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
 
-        return new ResponseWrapper<>("success", dtoList, "Loan schemes retrieved successfully");
+        return new ApiResponse<>("success", dtoList, "Loan schemes retrieved successfully");
     }
 
     @Transactional(readOnly = true)
-    public ResponseWrapper<LoanSchemeMasterDto> getByIdAndIsActive(Integer id) {
+    public ApiResponse<LoanSchemeMasterDto> getByIdAndIsActive(Integer id) {
         LoanSchemeMaster entity = repository.findBySchemeIdAndIsActiveTrue(id)
                 .orElseThrow(() -> new BusinessException("Loan scheme not found"));
-        return new ResponseWrapper<>("success", mapToDto(entity), "Loan scheme retrieved successfully");
+        return new ApiResponse<>("success", mapToDto(entity), "Loan scheme retrieved successfully");
     }
 
     @Transactional
-    public ResponseWrapper<Boolean> softDelete(Integer id) {
+    public ApiResponse<Boolean> softDelete(Integer id) {
         LoanSchemeMaster entity = repository.findBySchemeIdAndIsActiveTrue(id)
                 .orElseThrow(() -> new BusinessException("Loan scheme not found"));
 
         entity.setIsActive(false);
         repository.save(entity);
 
-        return new ResponseWrapper<>("success", true, "Loan scheme marked as inactive (soft deleted)");
+        return new ApiResponse<>("success", true, "Loan scheme marked as inactive (soft deleted)");
     }
 
     @Transactional

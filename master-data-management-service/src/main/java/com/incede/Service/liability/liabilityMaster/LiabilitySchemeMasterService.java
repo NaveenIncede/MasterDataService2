@@ -1,6 +1,7 @@
 package com.incede.Service.liability.liabilityMaster;
 
 import com.incede.Dto.liability.liabilityMaster.LiabilitySchemeMasterDto;
+import com.incede.Exception.ApiResponse;
 import com.incede.Exception.BusinessException;
 import com.incede.Model.liability.liabilityMaster.LiabilitySchemeMaster;
 import com.incede.Repository.liability.liabilityMaster.LiabilitySchemeMasterRepository;
@@ -22,7 +23,7 @@ public class LiabilitySchemeMasterService {
     }
 
     @Transactional
-    public ResponseWrapper<LiabilitySchemeMasterDto> saveOrUpdate(LiabilitySchemeMasterDto dto) {
+    public ApiResponse<LiabilitySchemeMasterDto> saveOrUpdate(LiabilitySchemeMasterDto dto) {
         try {
             // Duplicate check for new entries
             if (dto.getSchemeId() == null && repository.existsBySchemeCode(dto.getSchemeCode())) {
@@ -40,7 +41,7 @@ public class LiabilitySchemeMasterService {
             LiabilitySchemeMaster savedEntity = repository.save(entity);
 
             String message = (dto.getSchemeId() == null) ? "Created successfully" : "Updated successfully";
-            return new ResponseWrapper<>("success", mapToDto(savedEntity), message);
+            return new ApiResponse<>("success", mapToDto(savedEntity), message);
 
         } catch (BusinessException e) {
             throw e;
@@ -50,7 +51,7 @@ public class LiabilitySchemeMasterService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseWrapper<List<LiabilitySchemeMasterDto>> getAllActive() {
+    public ApiResponse<List<LiabilitySchemeMasterDto>> getAllActive() {
         List<LiabilitySchemeMaster> activeSchemes = repository.findAll().stream()
                 .filter(LiabilitySchemeMaster::getIsActive)
                 .collect(Collectors.toList());
@@ -63,19 +64,19 @@ public class LiabilitySchemeMasterService {
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
 
-        return new ResponseWrapper<>("success", dtos, "Active schemes fetched successfully");
+        return new ApiResponse<>("success", dtos, "Active schemes fetched successfully");
     }
 
     @Transactional(readOnly = true)
-    public ResponseWrapper<LiabilitySchemeMasterDto> getById(Integer id) {
+    public ApiResponse<LiabilitySchemeMasterDto> getById(Integer id) {
         LiabilitySchemeMaster scheme = repository.findById(id)
                 .orElseThrow(() -> new BusinessException("Scheme not found"));
 
-        return new ResponseWrapper<>("success", mapToDto(scheme), "Scheme fetched successfully");
+        return new ApiResponse<>("success", mapToDto(scheme), "Scheme fetched successfully");
     }
 
     @Transactional(readOnly = true)
-    public ResponseWrapper<List<LiabilitySchemeMasterDto>> getByProductId(Integer productId) {
+    public ApiResponse<List<LiabilitySchemeMasterDto>> getByProductId(Integer productId) {
         List<LiabilitySchemeMaster> schemes = repository.findByProductIdAndIsActiveTrue(productId);
 
         if (schemes.isEmpty()) {
@@ -86,18 +87,18 @@ public class LiabilitySchemeMasterService {
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
 
-        return new ResponseWrapper<>("success", dtos, "Schemes fetched by product ID");
+        return new ApiResponse<>("success", dtos, "Schemes fetched by product ID");
     }
 
     @Transactional
-    public ResponseWrapper<Boolean> softDelete(Integer id) {
+    public ApiResponse<Boolean> softDelete(Integer id) {
         LiabilitySchemeMaster scheme = repository.findById(id)
                 .orElseThrow(() -> new BusinessException("Scheme not found"));
 
         scheme.setIsActive(false);
         repository.save(scheme);
 
-        return new ResponseWrapper<>("success", true, "Scheme marked as inactive (soft deleted)");
+        return new ApiResponse<>("success", true, "Scheme marked as inactive (soft deleted)");
     }
 
     // Mapping methods

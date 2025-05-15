@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.incede.Dto.nationality.nationalitystatus.NationalityDTO;
+import com.incede.Exception.ApiResponse;
 import com.incede.Model.nationality.nationalityStatus.Nationality;
 import com.incede.Response.response.responseBody.ResponseWrapper;
 import com.incede.Service.nationality.nationalityStatus.NationalityService;
@@ -30,30 +31,30 @@ public class NationalityController {
 
     // Get all active (non-deleted) nationalities
     @GetMapping("/")
-    public ResponseEntity<ResponseWrapper<List<NationalityDTO>>> getAllNationalities() {
-        ResponseWrapper<List<NationalityDTO>> response = nationalityService.getAllNationalities();
+    public ResponseEntity<ApiResponse<List<NationalityDTO>>> getAllNationalities() {
+    	ApiResponse<List<NationalityDTO>> response = nationalityService.getAllNationalities();
         return ResponseEntity.ok(response);
     }
 
     // Get nationality by ID
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<NationalityDTO>> getNationalityById(@PathVariable Integer id) {
-        ResponseWrapper<NationalityDTO> response = nationalityService.getNationalityById(id);
+    public ResponseEntity<ApiResponse<NationalityDTO>> getNationalityById(@PathVariable Integer id) {
+    	ApiResponse<NationalityDTO> response = nationalityService.getNationalityById(id);
         return ResponseEntity.ok(response);
     }
 
     // Create or Update a nationality
     @PostMapping("/")
-    public ResponseEntity<ResponseWrapper<Nationality>> createOrUpdateNationality(
+    public ResponseEntity<ApiResponse<Nationality>> createOrUpdateNationality(
             @Valid @RequestBody NationalityDTO nationalityDTO) {
-        ResponseWrapper<Nationality> response = nationalityService.createOrUpdateNationality(nationalityDTO);
+    	ApiResponse<Nationality> response = nationalityService.createOrUpdateNationality(nationalityDTO);
         return ResponseEntity.status(201).body(response);
     }
 
     // Soft delete a nationality
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<String>> deleteNationality(@PathVariable Integer id) {
-        ResponseWrapper<String> response = nationalityService.deleteNationality(id);
+    public ResponseEntity<ApiResponse<String>> deleteNationality(@PathVariable Integer id) {
+    	ApiResponse<String> response = nationalityService.deleteNationality(id);
         return ResponseEntity.ok(response);
     }
     @GetMapping("/tenant/{tenantId}")
