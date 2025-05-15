@@ -1,6 +1,8 @@
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Dto\nationality\nationalitystatus\NationalityDTO.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Service\scheme\schemeGl\SchemeGlService.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Controller\liabilityInterest\liabilityInterestRateMaster\LiabilityInterestRateMasterController.java
+C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Model\scheme\SchemeSpecificMaster.java
+C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Service\scheme\SchemeSpecificMasterService.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Dto\schemeinterestrate\SchemeInterestRateDto.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\enums\deductionTypes\DeductionType.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Response\response\responseBody\ResponseWrapper.java
@@ -42,6 +44,7 @@ C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Service\nationality\nationalityStatus\NationalityService.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Controller\nationality\nationalityStatus\NationalityController.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Repository\loanScheme\loanSchemeMaster\LoanSchemeMasterRepository.java
+C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Dto\scheme\SchemeSpecificMasterDto.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Model\relationships\Relationship.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Controller\document\documentconfiguration\DocumentRequirementConfigurationController.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Controller\liability\liabilityMaster\LiabilitySchemeMasterController.java
@@ -63,6 +66,7 @@ C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Model\loanTransaction\loanTransactionEngine\LoanTransaction.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Controller\scheme\schemeGl\SchemeGlController.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Exception\BusinessException.java
+C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Controller\scheme\SchemeSpecificMasterController.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Model\customer\customerStatus\CustomerStatus.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Model\liability\liabilityMaster\LiabilitySchemeMaster.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Dto\journal\journalEntry\JournalEntryDTO.java
@@ -72,6 +76,7 @@ C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Service\liability\liabilityMaster\LiabilitySchemeMasterService.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Service\customer\customerStatus\CustomerStatusService.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Dto\address\AddressTypeDto.java
+C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Repository\scheme\SchemeSpecificMasterRepository.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Service\loanTransaction\loanTransationengine\LoanTransactionService.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Controller\liabilitySchema\LiabilityController.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Dto\salutation\salutationtypes\SalutationTypeDto.java
@@ -89,6 +94,7 @@ C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Model\contactType\ContactType.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Model\salutation\salutationtypes\SalutationType.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Dto\contactType\ContactTypeDto.java
+C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Model\configvaluetype\ConfigValueType.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Service\customer\customerCategory\MasterdataCustomerCategoryService.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Service\liabilitySchema\LiabilityService.java
 C:\masterdatagit\MasterDataService2\master-data-management-service\src\main\java\com\incede\Exception\GlobalExceptionHandler.java
