@@ -24,3 +24,7 @@
 # Package files
 *.jar
 *.war
+
+# build files
+/target
+.classpath
